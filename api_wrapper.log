@@ -1,0 +1,4 @@
+2025-03-28 14:14:05,711 - INFO - Making request to: https://api.springernature.com/openaccess/json with params: {'q': ['AI', 'drug discovery'], 'p': 20, 's': 1, 'api_key': '4ed70543f167bb7de765cc2419759d20'}
+2025-03-28 14:14:07,453 - ERROR - API Error: 500 Server Error: Internal Server Error for url: https://api.springernature.com/openaccess/json?q=AI&q=drug+discovery&p=20&s=1&api_key=4ed70543f167bb7de765cc2419759d20
+2025-03-28 14:15:44,182 - INFO - Making request to: https://api.springernature.com/openaccess/json with params: {'q': 'AI in drug discovery', 'p': 20, 's': 1, 'api_key': '4ed70543f167bb7de765cc2419759d20'}
+2025-04-01 11:51:43,503 - INFO - Making request to: https://api.springernature.com/openaccess/json with params: {'q': 'AI in drug discovery', 'p': 20, 's': 1, 'api_key': '4ed70543f167bb7de765cc2419759d20'}
