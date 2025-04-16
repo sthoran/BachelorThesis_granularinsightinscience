@@ -1,3 +1,9 @@
 api_wrapper.log
 database.py
 .DS_Store
+thesis
+NERmodels.py
+ner_results.csv
+launch.json
+preprocessed_biobert.csv
+__pycache__/preprocess.cpython-312.pyc
