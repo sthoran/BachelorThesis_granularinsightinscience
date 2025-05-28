@@ -7,3 +7,7 @@ ner_results.csv
 launch.json
 preprocessed_biobert.csv
 __pycache__/preprocess.cpython-312.pyc
+data
+__pycache__
+check_ai_abbr.csv
+filtered_ai_abstracts.cvs
