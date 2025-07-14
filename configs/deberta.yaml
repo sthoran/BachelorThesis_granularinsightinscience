@@ -1,0 +1,5 @@
+model_checkpoint: microsoft/deberta-base
+epochs: 5
+batch_size: 4
+learning_rate: 2e-5
+output_dir: ./deberta/

@@ -1,0 +1,6 @@
+mmodel_name_or_path: ./deberta/model  
+tokenizer_path: ./deberta/tokenizer   
+output_dir: results/finetuned_deberta
+epochs: 5
+batch_size: 4
+learning_rate: 2e-5
