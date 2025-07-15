@@ -2,20 +2,26 @@
 import springernature_api_client.openaccess as openaccess
 import sqlite3
 import pandas as pd
-import time
-import urllib.parse
-#%%
-con = sqlite3.connect('papers.db')
-cursor = con.cursor()
-key = '4ed70543f167bb7de765cc2419759d20'
+from huggingface_hub import hf_hub_download
 
-# %% Connect to openaccessAPI with api_key
+#%% Download the papers.db file from Hugging Face
+db_path = hf_hub_download(
+    repo_id="storan/aidrugcorpus",
+    filename="papers.db",
+    repo_type="dataset"
+)
+#%%
+con = sqlite3.connect(db_path)
+cursor = con.cursor()
+#%% Connect to openaccessAPI with your api_key
+key = '4ed70543f167bb7de765cc2419759d20'
 openaccess_client = openaccess.OpenAccessAPI(api_key=key)
 
 # %% try different queriers, in order to get the most related papers possible
 query_list =  ["drug discovery", 'AI in drug discovery', 'Artificial intelligence in drug discovery', 
                'Drug Discovery', 'AI in Drug Discovery', 'Artificial intelligence in Drug Discovery']
 all_records = []
+
 # iteratively request bacthes of 20 records across 50 pages
 all_records = []  # One big list to hold all articles
 
@@ -69,5 +75,3 @@ for record in all_records:
     
     df.to_sql("paper", con, if_exists="append", index=False)
     con.close()
-
-# %%
