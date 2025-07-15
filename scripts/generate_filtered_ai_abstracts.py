@@ -1,12 +1,18 @@
 import sqlite3
 import pandas as pd
+from huggingface_hub import hf_hub_download
 
-# ---------- Step 1: Data Cleanup Class ----------
+#  Data Cleanup Class 
 class DataCleanup:
     def __init__(self):
         self.df = None
 
-    def get_df_sqlite(self, db_path='/Users/user/IUBH/Semester6/Bachlorthesis/code/data/papers.db'):
+    def get_df_sqlite(self, db_repo="storan/aidrugcorpus", filename="papers.db"):
+        db_path = hf_hub_download(
+            repo_id=db_repo,
+            filename=filename,
+            repo_type="dataset"
+        )
         con = sqlite3.connect(db_path)
         self.df = pd.read_sql_query("""
             SELECT 
