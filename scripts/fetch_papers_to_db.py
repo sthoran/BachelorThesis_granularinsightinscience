@@ -6,7 +6,7 @@ from huggingface_hub import hf_hub_download
 
 #%% Download the papers.db file from Hugging Face
 db_path = hf_hub_download(
-    repo_id="storan/aidrugcorpus",
+    repo_id="sthoran/aidrugcorpus",
     filename="papers.db",
     repo_type="dataset"
 )
