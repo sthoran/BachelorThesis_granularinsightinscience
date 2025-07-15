@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import pandas as pd
+from huggingface_hub import hf_hub_download
 
 
 def load_scierc(path):
@@ -53,19 +54,27 @@ def export_to_json(processed_data, output_path):
         })
         
     with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(data,f,indent=2)
+        json.dump(data, f, indent=2)
         
     return data
 
 if __name__ == '__main__':
-    train_data = load_scierc('/Users/user/IUBH/Semester6/Bachlorthesis/code/data/scierc/processed_data/json/train.json')
-    test_data = load_scierc('/Users/user/IUBH/Semester6/Bachlorthesis/code/data/scierc/processed_data/json/test.json')
-    dev_data = load_scierc('/Users/user/IUBH/Semester6/Bachlorthesis/code/data/scierc/processed_data/json/dev.json')
-    processed_dev_data = preprocess_data_for_ner(dev_data)
+    # Download from Hugging Face
+    train_path = hf_hub_download("sthoran/scierc_processed_data", filename="train.json", repo_type="dataset")
+    dev_path = hf_hub_download("sthoran/scierc_processed_data", filename="dev.json", repo_type="dataset")
+    test_path = hf_hub_download("sthoran/scierc_processed_data", filename="test.json", repo_type="dataset")
+
+    # Load
+    train_data = load_scierc(train_path)
+    dev_data = load_scierc(dev_path)
+    test_data = load_scierc(test_path)
+
+    # Preprocess
     processed_train_data = preprocess_data_for_ner(train_data)
+    processed_dev_data = preprocess_data_for_ner(dev_data)
     processed_test_data = preprocess_data_for_ner(test_data)
-    export_to_json(processed_dev_data, 'ner_dev_data.json')
-    export_to_json(processed_train_data, 'ner_train_data.json')
-    export_to_json(processed_dev_data, 'ner_dev_data.json')
-   
-    
+
+    # Export
+    export_to_json(processed_train_data, "ner_train_data.json")
+    export_to_json(processed_dev_data, "ner_dev_data.json")
+    export_to_json(processed_test_data, "ner_test_data.json")
