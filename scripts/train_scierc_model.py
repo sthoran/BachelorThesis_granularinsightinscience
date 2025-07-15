@@ -6,10 +6,12 @@ from datasets import load_dataset, DatasetDict
 from transformers import (AutoTokenizer, AutoModelForTokenClassification, TrainingArguments,
                           Trainer, DataCollatorForTokenClassification)
 from seqeval.metrics import accuracy_score, f1_score, precision_score, recall_score
+from huggingface_hub import hf_hub_download
 
 class NERTrainer:
-    def __init__(self, config_path):
-        self.config = self.load_config(config_path)
+    def __init__(self, config_filename, config_repo="sthoran/ner-configs"):
+        self.config_path = self.download_config(config_filename, config_repo)
+        self.config = self.load_config(self.config_path)
 
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.config["model_checkpoint"],
@@ -31,20 +33,28 @@ class NERTrainer:
         self.tokenized_datasets = self.dataset.map(self.tokenize_and_align_labels, batched=True)
         self.training_args = self.set_training_args()
 
+    def download_config(self, filename, repo_id):
+        return hf_hub_download(
+            repo_id=repo_id,
+            filename=filename,
+            repo_type="dataset"
+        )
+        
     def load_config(self, path):
         with open(path, "r") as file:
             return yaml.safe_load(file)
 
-    def load_ner_json(self, path):
-        with open(path, "r") as f:
-            data = json.load(f)
-        return {"tokens": [d["tokens"] for d in data], "labels": [d["labels"] for d in data]}
-
     def load_datasets(self):
         return DatasetDict({
-            "train": load_dataset("json", data_files="../data/ner_train_data.json")["train"],
-            "validation": load_dataset("json", data_files="../data/ner_dev_data.json")["train"],
-            "test": load_dataset("json", data_files="../data/ner_test_data.json")["train"]
+            "train": load_dataset(
+                "sthoran/method_only_scierc", data_files="ner_train_data.json", split="train"
+            ),
+            "validation": load_dataset(
+                "sthoran/method_only_scierc", data_files="ner_dev_data.json", split="train"
+            ),
+            "test": load_dataset(
+                "sthoran/method_only_scierc", data_files="ner_test_data.json", split="train"
+            )
         })
 
     def tokenize_and_align_labels(self, batch):
@@ -164,5 +174,5 @@ class NERTrainer:
 
 
 if __name__ == "__main__":
-    trainer = NERTrainer("../configs/biobert.yaml")
+    trainer = NERTrainer("biobert.yaml")
     trainer.train_with_mlflow()
