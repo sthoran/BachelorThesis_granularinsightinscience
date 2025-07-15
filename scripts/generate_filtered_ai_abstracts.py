@@ -7,7 +7,7 @@ class DataCleanup:
     def __init__(self):
         self.df = None
 
-    def get_df_sqlite(self, db_repo="storan/aidrugcorpus", filename="papers.db"):
+    def get_df_sqlite(self, db_repo="sthoran/aidrugcorpus", filename="papers.db"):
         db_path = hf_hub_download(
             repo_id=db_repo,
             filename=filename,
