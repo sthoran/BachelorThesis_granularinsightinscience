@@ -1,6 +1,0 @@
-mmodel_name_or_path: ./scibert/model  
-tokenizer_path: ./scibert/tokenizer   
-output_dir: results/finetuned_scibert
-epochs: 5
-batch_size: 8
-learning_rate: 2e-5
