@@ -13,3 +13,7 @@ scibert
 deberta
 models
 results
+preprocess.py
+.venv
+.vscode
+
